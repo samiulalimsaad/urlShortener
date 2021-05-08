@@ -3,11 +3,10 @@ import {
     Button,
     Container,
     TextField,
-    Typography,
+    Typography
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
 import firebase, { fireStore } from "../Firebase";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,13 +37,15 @@ function uniqueId() {
     });
 }
 
-    const urlValidator = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-
+const urlValidator = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+    "i"
+); // fragment locator
 
 export default function index() {
     const classes = useStyles();
@@ -60,29 +61,29 @@ export default function index() {
         });
     }, []);
 
-    const submit =  (e) => {
+    const submit = (e) => {
         e.preventDefault();
         if (input === "") {
             setError("Enter a URL");
         } else {
-            if(urlValidator.test(input)) {
-            const id = uniqueId();
-            const url = `https://${window.location.hostname}/url/${id}`;
-            fireStore
-                .collection("urlShortener")
-                .doc(id)
-                .set({
-                    originalUrl: input,
-                    sortUrl: url,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                })
-                .then(() => {
-                    setInput("");
-                    setShortUrl(url);
-                })
-                .catch((e) => {
-                    setError(e.message);
-                });
+            if (urlValidator.test(input)) {
+                const id = uniqueId();
+                const url = `https://${window.location.hostname}/url/${id}`;
+                fireStore
+                    .collection("urlShortener")
+                    .doc(id)
+                    .set({
+                        originalUrl: input,
+                        sortUrl: url,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    })
+                    .then(() => {
+                        setInput("");
+                        setShortUrl(url);
+                    })
+                    .catch((e) => {
+                        setError(e.message);
+                    });
             } else {
                 setError("Please Enter a valid URL");
             }

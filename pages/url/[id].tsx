@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { fireStore } from "../../Firebase";
 
+
 const index = () => {
     const route = useRouter();
 
@@ -14,7 +15,14 @@ const index = () => {
             .get()
             .then((res) => {
                 if (res?.data()?.originalUrl) {
-                    location.assign(res?.data()?.originalUrl);
+                    if(res?.data()?.originalUrl.split(":")[0]==='https'){
+                   open(res?.data()?.originalUrl).focus();
+                   close()
+                }
+                else{
+                    open("https://" + res?.data()?.originalUrl).focus();
+                    close()
+                   }
                 }
             });
     }, [route]);
