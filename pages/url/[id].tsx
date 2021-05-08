@@ -16,7 +16,7 @@ const index = () => {
             .then((res) => {
                 if (res?.data()?.originalUrl) {
                     if(res?.data()?.originalUrl.split(":")[0]==='https'){
-                   open(res?.data()?.originalUrl).focus();
+                   open(res?.data()?.originalUrl,"_blank").focus();
                    close()
                 }
                 else{

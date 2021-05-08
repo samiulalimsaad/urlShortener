@@ -68,7 +68,9 @@ export default function index() {
         } else {
             if (urlValidator.test(input)) {
                 const id = uniqueId();
-                const url = `https://${window.location.hostname}/url/${id}`;
+                const url = process.env.NODE_ENV==='development'?
+                `http://${window.location.hostname}:3000/url/${id}`:
+                `https://${window.location.hostname}/url/${id}`;
                 fireStore
                     .collection("urlShortener")
                     .doc(id)
