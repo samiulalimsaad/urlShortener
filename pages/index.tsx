@@ -50,7 +50,7 @@ export default function index() {
                 return;
             }
             const id = uniqueId();
-            const url = `${window.location.hostname}/url/${id}`;
+            const url = `https://${window.location.hostname}/url/${id}`;
             fireStore
                 .collection("urlShortener")
                 .doc(id)
